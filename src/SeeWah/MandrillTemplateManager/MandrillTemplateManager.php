@@ -4,6 +4,7 @@ namespace SeeWah\MandrillTemplateManager;
 
 use \Html2Text\Html2Text;
 use \Mandrill;
+use \Mandrill_Error;
 use \Mustache_Engine;
 use \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
@@ -13,7 +14,7 @@ use \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 class MandrillTemplateManager {
 
 	/**
-         * Mustache object
+	 * Mustache object
 	 */
 	private $mustache;
 
@@ -116,7 +117,7 @@ class MandrillTemplateManager {
 	 * @param array $data mustache data
 	 * @param array $css css's
 	 */
-	public function generate($template, array $partials, array $data, array $css = null) {
+	public function generate($template, array $partials, array $data, array $css = array()) {
 		$this->mustache->setPartials($partials);
 		$this->html = $this->mustache->render($template, $data);
 		$this->textGenerator->set_html($this->html);
@@ -134,14 +135,28 @@ class MandrillTemplateManager {
 	 * @param string $textFile file path
 	 */
 	public function save($htmlFile, $textFile) {
-		// TODO
+		file_put_contents($this->html, $htmlFile);
+		file_put_contents($this->text, $textFile);
 	}
 
 	/**
-	 * Publishes to Mandrill.
-	 * @param bool $draft publish as draft
+	 * Publishes to Mandrill as a draft template.
+	 * @param string $templateName template name
+	 * @param string $fromEmail from email
+	 * @param string $fromName from name
+	 * @param string $subject subject
+	 * @throws Mandrill_Error
 	 */
-	public function publish($draft = true) {
-		// TODO
+	public function publishAsDraft($templateName, $fromEmail, $fromName, $subject = '') {
+		$lists = $this->mandrill->templates->getList();
+		if(is_array($lists)) {
+			foreach($lists as $template) {
+				if($template['name'] == $templateName) {
+					$this->mandrill->templates->update($templateName, $fromEmail, $fromName, $subject, $this->html, $this->text, false);
+					return;
+				}
+			}
+		}
+		$this->mandrill->templates->add($templateName, $fromEmail, $fromName, $subject, $this->html, $this->text, false);
 	}
 }
