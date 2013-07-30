@@ -1,0 +1,17 @@
+{
+	"name": "seewah/mandrill-template-manager",
+	"description": "Utility class for generating and publishing Mandrill templates",
+	"keywords": ["email", "template", "mandrill"],
+	"require": {
+		"html2text/html2text": "dev-master",
+		"mandrill/mandrill": "1.0.*",
+		"mustache/mustache": "~2.1",
+		"php": ">=5.3.0",
+		"tijsverkoyen/css-to-inline-styles": "1.2.*"
+	},
+	"autoload": {
+		"psr-0": {
+			"SeeWah\\MandrillTemplateManager\\": "src/"
+		}
+	}
+}

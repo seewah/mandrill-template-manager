@@ -1,4 +1,4 @@
 mandrill-template-manager
 =========================
 
-Library for creating and publishing Mandrill templates
+Utility class for generating and publishing Mandrill templates
