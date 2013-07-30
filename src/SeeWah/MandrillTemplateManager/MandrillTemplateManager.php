@@ -44,17 +44,6 @@ class MandrillTemplateManager {
 	private $text;
 
 	/**
-	 * Constructor
-	 * @param string $mandrillApiKey
-	 */
-	public function __construct($mandrillApiKey) {
-		$this->setMustache(new Mustache_Engine());
-		$this->setMandrill(new Mandrill($mandrillApiKey));
-		$this->setCssInliner(new CssToInlineStyles());
-		$this->setTextGenerator(new Html2Text());
-	}
-
-	/**
 	 * Sets mustache.
 	 * @param $mustache
 	 */
@@ -95,6 +84,22 @@ class MandrillTemplateManager {
 	}
 
 	/**
+	 * Sets the html value.
+	 * @param string $html
+	 */
+	public function setHtml($html) {
+		$this->html = $html;
+	}
+
+	/**
+	 * Sets the plain text value.
+	 * @param string $text
+	 */
+	public function setText($text) {
+		$this->text = $text;
+	}
+
+	/**
 	 * Returns the generated html.
 	 * @return string
 	 */
@@ -118,11 +123,16 @@ class MandrillTemplateManager {
 	 * @param array $css css's
 	 */
 	public function generate($template, array $partials, array $data, array $css = array()) {
+
+		if(!$this->mustache) $this->setMustache(new Mustache_Engine());
+		if(!$this->textGenerator) $this->setTextGenerator(new Html2Text());
+
 		$this->mustache->setPartials($partials);
 		$this->html = $this->mustache->render($template, $data);
 		$this->textGenerator->set_html($this->html);
 		$this->text = $this->textGenerator->get_text();
 		if(count($css)) {
+			if(!$this->cssInliner) $this->setCssInliner(new CssToInlineStyles());
 			$this->cssInliner->setHTML($this->html);
 			$this->cssInliner->setCSS(implode(PHP_EOL, $css));
 			$this->html = $this->cssInliner->convert();
@@ -141,13 +151,17 @@ class MandrillTemplateManager {
 
 	/**
 	 * Publishes to Mandrill as a draft template.
+	 * @param string $apiKey api key
 	 * @param string $templateName template name
 	 * @param string $fromEmail from email
 	 * @param string $fromName from name
 	 * @param string $subject subject
 	 * @throws Mandrill_Error
 	 */
-	public function publishAsDraft($templateName, $fromEmail, $fromName, $subject = '') {
+	public function publishAsDraft($apiKey, $templateName, $fromEmail, $fromName, $subject = '') {
+
+		if(!$this->mandrill) $this->setMandrill(new Mandrill($apiKey));
+
 		$lists = $this->mandrill->templates->getList();
 		if(is_array($lists)) {
 			foreach($lists as $template) {
