@@ -19,9 +19,9 @@ class MandrillTemplateManager {
 	private $mustache;
 
 	/**
-	 * Mandrill library
+	 * Mandrill templates service
 	 */
-	private $mandrill;
+	private $mandrillTemplatesService;
 
 	/**
 	 * Css inliner
@@ -52,11 +52,11 @@ class MandrillTemplateManager {
 	}
 
 	/**
-	 * Sets mandrill.
-	 * @param $mandrill
+	 * Sets mandrillTemplatesService.
+	 * @param $mandrillTemplatesService
 	 */
-	public function setMandrill($mandrill) {
-		$this->mandrill = $mandrill;
+	public function setMandrillTemplatesService($mandrillTemplatesService) {
+		$this->mandrillTemplatesService = $mandrillTemplatesService;
 	}
 
 	/**
@@ -160,17 +160,20 @@ class MandrillTemplateManager {
 	 */
 	public function publishAsDraft($apiKey, $templateName, $fromEmail, $fromName, $subject = '') {
 
-		if(!$this->mandrill) $this->setMandrill(new Mandrill($apiKey));
+		if(!$this->mandrillTemplatesService) {
+			$mandrill = new Mandrill($apiKey);
+			$this->setMandrillTemplateService($mandrill->templates);
+		}
 
-		$lists = $this->mandrill->templates->getList();
+		$lists = $this->mandrillTemplatesService->getList();
 		if(is_array($lists)) {
 			foreach($lists as $template) {
 				if($template['name'] == $templateName) {
-					$this->mandrill->templates->update($templateName, $fromEmail, $fromName, $subject, $this->html, $this->text, false);
+					$this->mandrillTemplatesService->update($templateName, $fromEmail, $fromName, $subject, $this->html, $this->text, false);
 					return;
 				}
 			}
 		}
-		$this->mandrill->templates->add($templateName, $fromEmail, $fromName, $subject, $this->html, $this->text, false);
+		$this->mandrillTemplatesService->add($templateName, $fromEmail, $fromName, $subject, $this->html, $this->text, false);
 	}
 }
