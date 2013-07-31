@@ -1,0 +1,17 @@
+{
+	"mandrillApiKey": "[YOUR API KEY]",
+	"includeBaseDir": "[YOUR INCLUDE TEMPLATE PATH]",
+	"includes": {
+		"header": "header.mustache",
+		"footer": "footer.mustache"
+	},
+	"cssBaseDir": "[YOUR CSS TEMPLATE PATH]",
+	"css": [
+		"moduleA.css",
+		"moduleB.css"
+	],
+	"fromEmail": "no-reply@seewah.com",
+	"fromName": "See Wah",
+	"siteUrl": "http://seewah.com",
+	"currentYear": 1984
+}

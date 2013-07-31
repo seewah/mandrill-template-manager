@@ -145,8 +145,8 @@ class MandrillTemplateManager {
 	 * @param string $textFile file path
 	 */
 	public function save($htmlFile, $textFile) {
-		file_put_contents($this->html, $htmlFile);
-		file_put_contents($this->text, $textFile);
+		file_put_contents($htmlFile, $this->html);
+		file_put_contents($textFile, $this->text);
 	}
 
 	/**
@@ -162,7 +162,7 @@ class MandrillTemplateManager {
 
 		if(!$this->mandrillTemplatesService) {
 			$mandrill = new Mandrill($apiKey);
-			$this->setMandrillTemplateService($mandrill->templates);
+			$this->setMandrillTemplatesService($mandrill->templates);
 		}
 
 		$lists = $this->mandrillTemplatesService->getList();
