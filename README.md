@@ -1,4 +1,36 @@
 mandrill-template-manager
 =========================
 
-Utility class for generating and publishing Mandrill templates
+A PHP utility class for generating and publishing Mandrill templates.
+
+Why?
+----
+
+I am a fan of the [Mandrill](http://mandrill.com) service. With its template support, we can iterate on email content and layout with relative ease. However, to generate templates, there are a number of steps involved in the workflow, which can be quite manual and errors can easily occur:
+
+ * combining different html files (header, footer, etc) together to build the complete html
+ * inlining css
+ * generating the plain text
+ * copy and pasting final html and plain text into Mandrill
+
+So I set out to create a tool to automate all these for me. I chose [Mustache](http://mustache.github.com/) as the templating language.
+
+In addition to being able to "include" templates ("Mustache partials"), I want to be able to use variables in my templates that do not have to be provided by the server. For example, we store images on Amazon S3. Instead of hardcoding the S3 host everywhere in my templates, I want to be able to store the host as a variable and reference the variable in my templates.
+
+Usage
+-----
+
+As mandrill-template-manager has been packaged up as a [composer](http://getcomposer.org/) package, the easiest way is to [install Composer and use the autoloader](http://getcomposer.org/doc/00-intro.md).
+
+A quick example:
+
+```php
+<?php
+$m = new \SeeWah\MandrillTemplateManager\MandrillTemplateManager;
+$m->generate('{{ siteUrl }}', array(), array('siteUrl' => 'http://seewah.com'));
+$m->publishAsDraft('api_key', 'template name', 'no-reply@seewah.com', 'See Wah', 'Getting started');
+```
+
+For a more complete example, check out the /example folder to see how you may want to use the class in real life.
+
+
