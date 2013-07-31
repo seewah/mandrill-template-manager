@@ -5,6 +5,37 @@ use \SeeWah\MandrillTemplateManager\MandrillTemplateManager;
 class MandrillTemplateManagerTest extends PHPUnit_Framework_TestCase {
 
 	/**
+	 * Tests generate.
+	 */
+	public function testGenerate() {
+
+		$manager = new MandrillTemplateManager();
+
+		$mustache = $this->getMock('Mustache_Engine', array(), array(), '', false);
+		$mustache->expects($this->once())->method('setPartials')->with($this->equalTo(array('a' => 'a', 'b' => 'b')));
+		$mustache->expects($this->once())->method('render')
+			->with($this->equalTo('{{> a }}<p>{{ name }}</p>{{> b }}'), $this->equalTo(array('name' => 'See Wah')))
+			->will($this->returnValue('a<p>See Wah</p>b'));
+
+		$textGenerator = $this->getMock('\Html2Text\Html2Text', array(), array(), '', false);
+		$textGenerator->expects($this->once())->method('set_html')->with($this->equalTo('a<p>See Wah</p>b'));
+		$textGenerator->expects($this->once())->method('get_text')->will($this->returnValue('a See Wah b'));
+
+		$cssInliner = $this->getMock('\TijsVerkoyen\CssToInlineStyles\CssToInlineStyles', array(), array(), '', false);
+		$cssInliner->expects($this->once())->method('setHTML')->with($this->equalTo('a<p>See Wah</p>b'));
+		$cssInliner->expects($this->once())->method('setCSS')->with($this->equalTo('body {}' . PHP_EOL . 'a {}'));
+		$cssInliner->expects($this->once())->method('convert')->will($this->returnValue('a<p>See Wah</p>b'));
+
+		$manager->setMustache($mustache);
+		$manager->setTextGenerator($textGenerator);
+		$manager->setCssInliner($cssInliner);
+		$manager->generate('{{> a }}<p>{{ name }}</p>{{> b }}', array('a' => 'a', 'b' => 'b'), array('name' => 'See Wah'), array('body {}', 'a {}'));
+
+		$this->assertEquals('a<p>See Wah</p>b', $manager->getHtml());
+		$this->assertEquals('a See Wah b', $manager->getText());
+	}
+
+	/**
 	 * Tests publishAsDraft - new template.
 	 */
 	public function testPublishAsDraftNewTemplate() {
