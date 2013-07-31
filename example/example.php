@@ -42,5 +42,5 @@ $css = array_map(function($item) {
 }, $config["css"]);
 
 $manager->generate($template, $includes, $config, $css);
-$manager->save('output.html', 'output.txt');
+$manager->save('output.html', 'output.txt'); // we are not actually required to save before publishing to mandrill
 $manager->publishAsDraft($config['mandrillApiKey'], $config['templateName'], $config['fromEmail'], $config['fromName'], $config['subject']);

@@ -150,7 +150,8 @@ class MandrillTemplateManager {
 	}
 
 	/**
-	 * Publishes to Mandrill as a draft template.
+	 * Publishes the generated template to Mandrill as a draft template.
+	 * Note: It is NOT actually a requirement to call MandrillTemplateManager::save before publishing to mandrill!
 	 * @param string $apiKey api key
 	 * @param string $templateName template name
 	 * @param string $fromEmail from email
