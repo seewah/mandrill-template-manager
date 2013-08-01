@@ -33,8 +33,8 @@ $m->publishAsDraft($mandrillKey, 'template name', 'no-reply@seewah.com', 'See Wa
 
 For a more complete example, check out the [example](https://github.com/seewah/mandrill-template-manager/tree/master/example) to see how you may want to use the class in real life.
 
-Adding MandrillTemplateManager to your own project
-==================================================
+Adding to your own project
+--------------------------
 
 Use [Composer](http://getcomposer.org/), of course!
 
