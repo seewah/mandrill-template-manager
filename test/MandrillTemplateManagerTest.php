@@ -14,7 +14,7 @@ class MandrillTemplateManagerTest extends PHPUnit_Framework_TestCase {
 		$mustache = $this->getMock('Mustache_Engine', array(), array(), '', false);
 		$mustache->expects($this->once())->method('setPartials')->with($this->equalTo(array('a' => 'a', 'b' => 'b')));
 		$mustache->expects($this->once())->method('render')
-			->with($this->equalTo('{{> a }}<p>{{ name }}</p>{{> b }}'), $this->equalTo(array('name' => 'See Wah')))
+			->with($this->equalTo('{{> a}}<p>{{name}}</p>{{> b}}'), $this->equalTo(array('name' => 'See Wah')))
 			->will($this->returnValue('a<p>See Wah</p>b'));
 
 		$textGenerator = $this->getMock('\Html2Text\Html2Text', array(), array(), '', false);
@@ -29,7 +29,7 @@ class MandrillTemplateManagerTest extends PHPUnit_Framework_TestCase {
 		$manager->setMustache($mustache);
 		$manager->setTextGenerator($textGenerator);
 		$manager->setCssInliner($cssInliner);
-		$manager->generate('{{> a }}<p>{{ name }}</p>{{> b }}', array('a' => 'a', 'b' => 'b'), array('name' => 'See Wah'), array('body {}', 'a {}'));
+		$manager->generate('{{> a}}<p>{{name}}</p>{{> b}}', array('a' => 'a', 'b' => 'b'), array('name' => 'See Wah'), array('body {}', 'a {}'));
 
 		$this->assertEquals('a<p>See Wah</p>b', $manager->getHtml());
 		$this->assertEquals('a See Wah b', $manager->getText());
