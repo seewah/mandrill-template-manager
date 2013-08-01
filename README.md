@@ -31,6 +31,6 @@ $m->generate('{{> header}}<a href="{{siteUrl}}{{> footer}}">Welcome</a>', $parti
 $m->publishAsDraft($mandrillKey, 'template name', 'no-reply@seewah.com', 'See Wah', 'Getting started');
 ```
 
-For a more complete example, check out the [example directory](https://github.com/seewah/mandrill-template-manager/tree/master/example) to see how you may want to use the class in real life.
+For a more complete example, check out the [example](https://github.com/seewah/mandrill-template-manager/tree/master/example) to see how you may want to use the class in real life.
 
 
