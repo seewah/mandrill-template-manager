@@ -33,10 +33,12 @@ $m->publishAsDraft($mandrillKey, 'template name', 'no-reply@seewah.com', 'See Wa
 
 For a more complete example, check out the [example](https://github.com/seewah/mandrill-template-manager/tree/master/example) to see how you may want to use the class in real life.
 
-Including mandrill-template-manager in your own project via Composer
-====================================================================
+Adding MandrillTemplateManager to your own project
+==================================================
 
-As one of the dependent packages, [html2text](https://packagist.org/packages/html2text/html2text), has not been tagged, to stop `composer install` from moaning, you would have to do the following in your project's `composer.json`.
+Use [Composer](http://getcomposer.org/), of course!
+
+However, as one of the dependent packages, [html2text](https://packagist.org/packages/html2text/html2text), has not been tagged, to stop `composer install` from moaning, you would have to do the following in your project's `composer.json`.
 
 ```json
 {
