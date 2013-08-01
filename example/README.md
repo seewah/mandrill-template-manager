@@ -27,4 +27,4 @@ Run `php example.php welcome.mustache welcome.json` (WARNING: this will create a
 
  * `welcome.mustache` is the mustache template for the example Mandrill template.
  * `welcome.json` represents template-specific options, which will override the global options in `config.json`.
- * With the default configuration, the script will sort out the two includes, apply the two css files, create the output files, and publish in Mandrill as a draft.
+ * With the default configuration, the script will sort out the two includes, apply the two css files, create the output files, and publish the Mandrill template as a draft.
