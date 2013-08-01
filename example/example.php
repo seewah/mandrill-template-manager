@@ -1,7 +1,6 @@
 <?php
 
 // usage: php example.php welcome.mustache welcome.json
-// where the last argument: welcome.json is optional
 
 require(dirname(__FILE__) . '/../vendor/autoload.php');
 
@@ -16,19 +15,15 @@ $config = json_decode(file_get_contents(dirname(__FILE__) . '/config.json'), tru
 $template = file_get_contents($argv[1]);
 
 // template-specific config
-if(isset($argv[2])) {
-	$templateSpecificConfig = json_decode(file_get_contents($argv[2]), true);
-	if($templateSpecificConfig) {
-		$config = array_merge($config, $templateSpecificConfig);
-		if(isset($config["additionalIncludes"])) {
-			$config["includes"] = array_merge($config["includes"], $config["additionalIncludes"]);
-			unset($config["additionalIncludes"]);
-		}
-		if(isset($config["additionalCss"])) {
-			$config["css"] = array_merge($config["css"], $config["additionalCss"]);
-			unset($config["additionalCss"]);
-		}
-	}
+$templateSpecificConfig = json_decode(file_get_contents($argv[2]), true);
+$config = array_merge($config, $templateSpecificConfig);
+if(isset($config["additionalIncludes"])) {
+	$config["includes"] = array_merge($config["includes"], $config["additionalIncludes"]);
+	unset($config["additionalIncludes"]);
+}
+if(isset($config["additionalCss"])) {
+	$config["css"] = array_merge($config["css"], $config["additionalCss"]);
+	unset($config["additionalCss"]);
 }
 
 // preparing final partials(includes) and css list
