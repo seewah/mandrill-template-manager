@@ -2,6 +2,15 @@
 	"name": "seewah/mandrill-template-manager",
 	"description": "Utility class for generating and publishing Mandrill templates",
 	"keywords": ["email", "template", "mandrill"],
+	"homepage": "https://github.com/seewah/mandrill-template-manager",
+	"license": "MIT",
+	"authors": [
+        	{
+            		"name": "See Wah Cheng",
+            		"homepage": "http://seewah.com",
+            		"role": "Developer"
+        	}
+    	],
 	"require": {
 		"html2text/html2text": "dev-master",
 		"mandrill/mandrill": "1.0.*",

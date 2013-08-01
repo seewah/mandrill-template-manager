@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "2a2b69bdcc91f583950b14f0f2dbd93a",
+    "hash": "85f33844ff88e8d01403db29f9b2f37d",
     "packages": [
         {
             "name": "html2text/html2text",
