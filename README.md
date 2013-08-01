@@ -22,6 +22,17 @@ Usage
 
 As Mandrill Template Manager has been packaged up as a [Composer](http://getcomposer.org/) package, the easiest way to start using the class is to [install Composer and use the autoloader](http://getcomposer.org/doc/00-intro.md).
 
+Note that since one of the dependent packages, [html2text](https://packagist.org/packages/html2text/html2text), has not been tagged, to stop Composer from complaining, you would have to do the following: 
+
+```json
+{
+        "require": {
+                "seewah/mandrill-template-manager": "1.0.*",
+                "html2text/html2text": "@dev"
+	}
+}
+```
+
 A quick example:
 
 ```php
