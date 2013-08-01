@@ -27,8 +27,8 @@ A quick example:
 ```php
 <?php
 $m = new \SeeWah\MandrillTemplateManager\MandrillTemplateManager;
-$m->generate('{{ siteUrl }}', array(), array('siteUrl' => 'http://seewah.com'));
-$m->publishAsDraft('api_key', 'template name', 'no-reply@seewah.com', 'See Wah', 'Getting started');
+$m->generate('<a href="{{siteUrl}}">Welcome</a>', array(), array('siteUrl' => 'http://seewah.com'), $css);
+$m->publishAsDraft($mandrillKey, 'template name', 'no-reply@seewah.com', 'See Wah', 'Getting started');
 ```
 
 For a more complete example, check out the [example directory](https://github.com/seewah/mandrill-template-manager/tree/master/example) to see how you may want to use the class in real life.
