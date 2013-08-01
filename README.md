@@ -27,7 +27,7 @@ A quick example:
 ```php
 <?php
 $m = new \SeeWah\MandrillTemplateManager\MandrillTemplateManager;
-$m->generate('<a href="{{siteUrl}}">Welcome</a>', array(), array('siteUrl' => 'http://seewah.com'), $css);
+$m->generate('{{> header}}<a href="{{siteUrl}}{{> footer}}">Welcome</a>', $partials, array('siteUrl' => 'http://seewah.com'), $css);
 $m->publishAsDraft($mandrillKey, 'template name', 'no-reply@seewah.com', 'See Wah', 'Getting started');
 ```
 
