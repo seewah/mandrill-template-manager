@@ -103,7 +103,7 @@ class MandrillTemplateManager {
 	}
 
 	/**
-	 * Saves generated html and plain text as files.
+	 * Saves generated html as a text file.
 	 * @param string $htmlFile file path
 	 */
 	public function save($htmlFile) {
@@ -111,7 +111,7 @@ class MandrillTemplateManager {
 	}
 
 	/**
-	 * Publishes the generated template to Mandrill as a draft template.
+	 * Publishes the generated template to Mandrill.
 	 * Note: It is NOT actually a requirement to call MandrillTemplateManager::save before publishing to mandrill!
 	 * @param string $apiKey api key
 	 * @param string $templateName template name
