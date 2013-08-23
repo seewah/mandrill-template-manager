@@ -12,7 +12,8 @@ Here is my scenario:
  * I want to create one mustache template for each Mandrill template.
  * I want to be able to configure global as well as template-specific options.
  * I want to be able to see the output before publishing to Mandrill.
- * I only want to publish templates to Mandrill as drafts.
+ * I want to publish templates to Mandrill as drafts before publishing as live.
+ * I want to be able to add suffixes to my templates to denote that they are staging templates, e.g.
 
 Try it out
 ----------
@@ -23,7 +24,7 @@ First update `config.json` where
  * `includeBaseDir` points to the "includes" folder e.g. `/.../mandrill-template-manager/example/includes/`.
  * `cssBaseDir` points to the "styles" folder e.g. `/.../mandrill-template-manager/example/styles/`.
 
-Run `php example.php welcome.mustache welcome.json` (WARNING: this will create a "Template Manager Test" template in your Mandrill account!)
+Run `php example.php welcome.mustache welcome.json draft -test` (WARNING: this will create a "Template Manager Test-test" template in your Mandrill account!)
 
  * `welcome.mustache` is the mustache template for the example Mandrill template.
  * `welcome.json` represents template-specific options, which will override the global options in `config.json`.
