@@ -1,6 +1,6 @@
 <?php
 
-// usage: php example.php welcome.mustache welcome.json
+// usage: php example.php welcome.mustache welcome.json live|draft .staging
 
 require(dirname(__FILE__) . '/../vendor/autoload.php');
 
@@ -26,6 +26,16 @@ if(isset($config["additionalCss"])) {
 	unset($config["additionalCss"]);
 }
 
+// publish status
+$publishStatus = $argv[3];
+if($publishStatus != 'live' && $publishStatus != 'draft') {
+	echo 'third arg must be either live or draft';
+	exit;
+}
+
+// template name suffix
+$suffix = (count($argv) > 4) ? $argv[4] : '';
+
 // preparing final partials(includes) and css list
 $includes = array_map(function($item) {
 	global $config;
@@ -38,4 +48,4 @@ $css = array_map(function($item) {
 
 $manager->generate($template, $includes, $config, $css);
 $manager->save('output.html', 'output.txt'); // we are not actually required to save before publishing to mandrill
-$manager->publishAsDraft($config['mandrillApiKey'], $config['templateName'], $config['fromEmail'], $config['fromName'], $config['subject']);
+$manager->publish($config['mandrillApiKey'], $config['templateName'] . $suffix, $config['fromEmail'], $config['fromName'], $config['subject']);

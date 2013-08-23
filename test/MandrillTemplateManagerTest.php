@@ -36,9 +36,9 @@ class MandrillTemplateManagerTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests publishAsDraft - new template.
+	 * Tests publish - new template.
 	 */
-	public function testPublishAsDraftNewTemplate() {
+	public function testPublishNewTemplate() {
 		$manager = new MandrillTemplateManager();
 		$manager->setHtml('<p>Read this now!</p>');
 		$manager->setText('Read this now!');
@@ -51,16 +51,16 @@ class MandrillTemplateManagerTest extends PHPUnit_Framework_TestCase {
 			$this->equalTo('Amazing subject...'),
 			$this->equalTo('<p>Read this now!</p>'),
 			$this->equalTo('Read this now!'),
-			$this->equalTo(false));
+			$this->equalTo(true));
 		$service->expects($this->never())->method('update');
 		$manager->setMandrillTemplatesService($service);
-		$manager->publishAsDraft('my_key', 'my fav template', 'a@b.com', 'Mr C', 'Amazing subject...');
+		$manager->publish('my_key', 'my fav template', 'a@b.com', 'Mr C', 'Amazing subject...', true);
 	}
 
 	/**
-	 * Tests publishAsDraft - existing template.
+	 * Tests publish - existing template.
 	 */
-	public function testPublishAsDraftExistingTemplate() {
+	public function testPublishExistingTemplate() {
 		$manager = new MandrillTemplateManager();
 		$manager->setHtml('<p>Read this now!</p>');
 		$manager->setText('Read this now!');
@@ -73,9 +73,9 @@ class MandrillTemplateManagerTest extends PHPUnit_Framework_TestCase {
 			$this->equalTo('Amazing subject...'),
 			$this->equalTo('<p>Read this now!</p>'),
 			$this->equalTo('Read this now!'),
-			$this->equalTo(false));
+			$this->equalTo(true));
 		$service->expects($this->never())->method('add');
 		$manager->setMandrillTemplatesService($service);
-		$manager->publishAsDraft('my_key', 'my fav template', 'a@b.com', 'Mr C', 'Amazing subject...');
+		$manager->publish('my_key', 'my fav template', 'a@b.com', 'Mr C', 'Amazing subject...', true);
 	}
 }

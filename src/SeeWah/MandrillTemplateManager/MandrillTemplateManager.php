@@ -165,9 +165,10 @@ class MandrillTemplateManager {
 	 * @param string $fromEmail from email
 	 * @param string $fromName from name
 	 * @param string $subject subject
+	 * @param bool $live to publish live
 	 * @throws Mandrill_Error
 	 */
-	public function publishAsDraft($apiKey, $templateName, $fromEmail, $fromName, $subject = '') {
+	public function publish($apiKey, $templateName, $fromEmail, $fromName, $subject = '', $live = false) {
 
 		if(!$this->mandrillTemplatesService) {
 			$mandrill = new Mandrill($apiKey);
@@ -178,11 +179,11 @@ class MandrillTemplateManager {
 		if(is_array($lists)) {
 			foreach($lists as $template) {
 				if($template['name'] == $templateName) {
-					$this->mandrillTemplatesService->update($templateName, $fromEmail, $fromName, $subject, $this->html, $this->text, false);
+					$this->mandrillTemplatesService->update($templateName, $fromEmail, $fromName, $subject, $this->html, $this->text, $live);
 					return;
 				}
 			}
 		}
-		$this->mandrillTemplatesService->add($templateName, $fromEmail, $fromName, $subject, $this->html, $this->text, false);
+		$this->mandrillTemplatesService->add($templateName, $fromEmail, $fromName, $subject, $this->html, $this->text, $live);
 	}
 }
