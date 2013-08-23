@@ -121,16 +121,22 @@ class MandrillTemplateManager {
 	 * @param array $partials mustache partials
 	 * @param array $data mustache data
 	 * @param array $css css's
+	 * @param bool $generatePlaintext make sure the mailchimp tag values make sense for both html and plaintext versions. I would actually recommend relying on Mandrill to generate the final plaintext email contents by keeping this as false, and leaving $this->text as an empty string.
 	 */
-	public function generate($template, array $partials, array $data, array $css = array()) {
+	public function generate($template, array $partials, array $data, array $css = array(), $generatePlaintext = false) {
 
 		if(!$this->mustache) $this->setMustache(new Mustache_Engine());
-		if(!$this->textGenerator) $this->setTextGenerator(new Html2Text());
+		if($generatePlaintext && !$this->textGenerator) $this->setTextGenerator(new Html2Text());
 
 		$this->mustache->setPartials($partials);
 		$this->html = $this->mustache->render($template, $data);
-		$this->textGenerator->set_html($this->html);
-		$this->text = $this->textGenerator->get_text();
+		if($generatePlaintext) {
+			$this->textGenerator->set_html($this->html);
+			$this->text = $this->textGenerator->get_text();
+		}
+		else {
+			$this->text = '';
+		}
 		if(count($css)) {
 			if(!$this->cssInliner) $this->setCssInliner(new CssToInlineStyles());
 			$this->cssInliner->setHTML($this->html);
@@ -146,7 +152,7 @@ class MandrillTemplateManager {
 	 */
 	public function save($htmlFile, $textFile) {
 		file_put_contents($htmlFile, $this->html);
-		file_put_contents($textFile, $this->text);
+		if($textFile && $this->text) file_put_contents($textFile, $this->text);
 	}
 
 	/**

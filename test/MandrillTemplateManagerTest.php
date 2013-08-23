@@ -29,7 +29,7 @@ class MandrillTemplateManagerTest extends PHPUnit_Framework_TestCase {
 		$manager->setMustache($mustache);
 		$manager->setTextGenerator($textGenerator);
 		$manager->setCssInliner($cssInliner);
-		$manager->generate('{{> a}}<p>{{name}}</p>{{> b}}', array('a' => 'a', 'b' => 'b'), array('name' => 'See Wah'), array('body {}', 'a {}'));
+		$manager->generate('{{> a}}<p>{{name}}</p>{{> b}}', array('a' => 'a', 'b' => 'b'), array('name' => 'See Wah'), array('body {}', 'a {}'), true);
 
 		$this->assertEquals('a<p>See Wah</p>b', $manager->getHtml());
 		$this->assertEquals('a See Wah b', $manager->getText());
