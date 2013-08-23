@@ -2,7 +2,6 @@
 
 namespace SeeWah\MandrillTemplateManager;
 
-use \Html2Text\Html2Text;
 use \Mandrill;
 use \Mandrill_Error;
 use \Mustache_Engine;
@@ -29,19 +28,9 @@ class MandrillTemplateManager {
 	private $cssInliner;
 
 	/**
-	 * Plain text generator
-	 */
-	private $textGenerator;
-
-	/**
 	 * Generated html
 	 */
 	private $html;
-
-	/**
-	 * Generated plain text
-	 */
-	private $text;
 
 	/**
 	 * Sets mustache.
@@ -68,19 +57,10 @@ class MandrillTemplateManager {
 	}
 
 	/**
-	 * Sets textGenerator.
-	 * @param $textGenerator
-	 */
-	public function setTextGenerator($textGenerator) {
-		$this->textGenerator = $textGenerator;
-	}
-
-	/**
 	 * Resets.
 	 */
 	public function reset() {
 		$this->html = null;
-		$this->text = null;
 	}
 
 	/**
@@ -92,14 +72,6 @@ class MandrillTemplateManager {
 	}
 
 	/**
-	 * Sets the plain text value.
-	 * @param string $text
-	 */
-	public function setText($text) {
-		$this->text = $text;
-	}
-
-	/**
 	 * Returns the generated html.
 	 * @return string
 	 */
@@ -108,35 +80,18 @@ class MandrillTemplateManager {
 	}
 
 	/**
-	 * Returns the generated plain text.
-	 * @return string
-	 */
-	public function getText() {
-		return $this->text;
-	}
-
-	/**
-	 * Generates the html and plain text.
+	 * Generates the html.
 	 * @param string $template mustache template
 	 * @param array $partials mustache partials
 	 * @param array $data mustache data
 	 * @param array $css css's
-	 * @param bool $generatePlaintext make sure the mailchimp tag values make sense for both html and plaintext versions. I would actually recommend relying on Mandrill to generate the final plaintext email contents by keeping this as false, and leaving $this->text as an empty string.
 	 */
-	public function generate($template, array $partials, array $data, array $css = array(), $generatePlaintext = false) {
+	public function generate($template, array $partials, array $data, array $css = array()) {
 
 		if(!$this->mustache) $this->setMustache(new Mustache_Engine());
-		if($generatePlaintext && !$this->textGenerator) $this->setTextGenerator(new Html2Text());
 
 		$this->mustache->setPartials($partials);
 		$this->html = $this->mustache->render($template, $data);
-		if($generatePlaintext) {
-			$this->textGenerator->set_html($this->html);
-			$this->text = $this->textGenerator->get_text();
-		}
-		else {
-			$this->text = '';
-		}
 		if(count($css)) {
 			if(!$this->cssInliner) $this->setCssInliner(new CssToInlineStyles());
 			$this->cssInliner->setHTML($this->html);
@@ -150,11 +105,9 @@ class MandrillTemplateManager {
 	/**
 	 * Saves generated html and plain text as files.
 	 * @param string $htmlFile file path
-	 * @param string $textFile file path
 	 */
-	public function save($htmlFile, $textFile) {
+	public function save($htmlFile) {
 		file_put_contents($htmlFile, $this->html);
-		if($textFile && $this->text) file_put_contents($textFile, $this->text);
 	}
 
 	/**
@@ -179,11 +132,11 @@ class MandrillTemplateManager {
 		if(is_array($lists)) {
 			foreach($lists as $template) {
 				if($template['name'] == $templateName) {
-					$this->mandrillTemplatesService->update($templateName, $fromEmail, $fromName, $subject, $this->html, $this->text, $live);
+					$this->mandrillTemplatesService->update($templateName, $fromEmail, $fromName, $subject, $this->html, '', $live);
 					return;
 				}
 			}
 		}
-		$this->mandrillTemplatesService->add($templateName, $fromEmail, $fromName, $subject, $this->html, $this->text, $live);
+		$this->mandrillTemplatesService->add($templateName, $fromEmail, $fromName, $subject, $this->html, '', $live);
 	}
 }

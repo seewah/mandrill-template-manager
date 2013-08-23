@@ -12,7 +12,6 @@
         	}
     	],
 	"require": {
-		"html2text/html2text": "dev-master",
 		"mandrill/mandrill": "1.0.*",
 		"mustache/mustache": "~2.1",
 		"php": ">=5.3.0",

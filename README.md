@@ -10,7 +10,6 @@ I am a fan of the [Mandrill](http://mandrill.com) service. With its template sup
 
  * combining different html files (header, footer, etc) together to build the complete html
  * inlining css
- * generating the plain text
  * copy and pasting final html and plain text into Mandrill
 
 So I set out to create a tool to automate all these for me. I chose [Mustache](http://mustache.github.com/) as the templating language.
@@ -37,14 +36,3 @@ Adding to your own project
 --------------------------
 
 Use [Composer](http://getcomposer.org/), of course!
-
-However, as one of the dependent packages, [html2text](https://packagist.org/packages/html2text/html2text), has not been tagged, to stop `composer install` from moaning, you would have to do the following in your project's `composer.json`.
-
-```json
-{
-	"require": {
-		"seewah/mandrill-template-manager": "1.0.*",
-		"html2text/html2text": "@dev"
-	}
-}
-```
