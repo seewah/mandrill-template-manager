@@ -141,7 +141,9 @@ class MandrillTemplateManager {
 			if(!$this->cssInliner) $this->setCssInliner(new CssToInlineStyles());
 			$this->cssInliner->setHTML($this->html);
 			$this->cssInliner->setCSS(implode(PHP_EOL, $css));
-			$this->html = $this->cssInliner->convert();
+			$this->html = $this->cssInliner->convert(true);
+			// to resolve this css inliner bug! https://github.com/dgaidula/CssToInlineStyles/commit/447d666ebb9c7c49a2afb22b5e7755bc29db9736
+			if(substr($this->html, 0, 1) == '>') $this->html = substr($this->html, 1);
 		}
 	}
 
