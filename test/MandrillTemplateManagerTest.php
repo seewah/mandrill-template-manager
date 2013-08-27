@@ -20,13 +20,13 @@ class MandrillTemplateManagerTest extends PHPUnit_Framework_TestCase {
 		$cssInliner = $this->getMock('\TijsVerkoyen\CssToInlineStyles\CssToInlineStyles', array(), array(), '', false);
 		$cssInliner->expects($this->once())->method('setHTML')->with($this->equalTo('a<p>See Wah</p>b'));
 		$cssInliner->expects($this->once())->method('setCSS')->with($this->equalTo('body {}' . PHP_EOL . 'a {}'));
-		$cssInliner->expects($this->once())->method('convert')->will($this->returnValue('a<p>See Wah</p>b'));
+		$cssInliner->expects($this->once())->method('convert')->with($this->equalTo(true))->will($this->returnValue('<STYLE type="text/css"> <![CDATA[ p {} ]]> </style>a<p>See Wah</p>b'));
 
 		$manager->setMustache($mustache);
 		$manager->setCssInliner($cssInliner);
 		$manager->generate('{{> a}}<p>{{name}}</p>{{> b}}', array('a' => 'a', 'b' => 'b'), array('name' => 'See Wah'), array('body {}', 'a {}'), true);
 
-		$this->assertEquals('a<p>See Wah</p>b', $manager->getHtml());
+		$this->assertEquals('<STYLE type="text/css"> p {} </style>a<p>See Wah</p>b', $manager->getHtml());
 	}
 
 	/**

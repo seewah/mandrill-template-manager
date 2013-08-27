@@ -96,9 +96,16 @@ class MandrillTemplateManager {
 			if(!$this->cssInliner) $this->setCssInliner(new CssToInlineStyles());
 			$this->cssInliner->setHTML($this->html);
 			$this->cssInliner->setCSS(implode(PHP_EOL, $css));
+			// choosing xhtml output for two reasons
+			// 1) xhtml is generally recommended for email template http://htmlemailboilerplate.com/
+			// 2) cssInliner would be escaping any mailchimp tags inside href otherwise...
 			$this->html = $this->cssInliner->convert(true);
 			// to resolve this css inliner bug! https://github.com/dgaidula/CssToInlineStyles/commit/447d666ebb9c7c49a2afb22b5e7755bc29db9736
 			if(substr($this->html, 0, 1) == '>') $this->html = substr($this->html, 1);
+			$this->html = trim($this->html);
+			// removing the CDATA introduced by cssInline which prevents any responsive styling from being applied
+			$this->html = preg_replace('%(<style[^>]*>)\s*<\!\[CDATA\[%i', '$1', $this->html);
+			$this->html = preg_replace('%\]\]>\s*</style>%i', '</style>', $this->html);
 		}
 	}
 
